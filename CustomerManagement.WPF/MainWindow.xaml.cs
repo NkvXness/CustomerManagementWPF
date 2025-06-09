@@ -19,6 +19,7 @@ namespace CustomerManagement.WPF
         public MainWindow()
         {
             InitializeComponent();
+            CustomerManagement.Core.Program.TestFactoryAndRepository();
         }
     }
 }

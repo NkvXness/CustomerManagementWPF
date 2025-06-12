@@ -3,10 +3,96 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CustomerManagement.WPF"
+        xmlns:viewmodels="clr-namespace:CustomerManagement.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Управление покупателями" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen">
 
+    <!-- Устанавливаем DataContext (связываем с ViewModel) -->
+    <Window.DataContext>
+        <viewmodels:MainViewModel/>
+    </Window.DataContext>
+
+    <!-- Главный контейнер -->
+    <Grid Margin="10">
+        <!-- Определяем строки -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Заголовок -->
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопки -->
+            <RowDefinition Height="*"/>
+            <!-- Список (занимает всё оставшееся место) -->
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+                   Text="Список покупателей" 
+                   FontSize="24" 
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"/>
+
+        <!-- Панель с кнопками -->
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" 
+                    Margin="0,0,0,10">
+
+            <Button Content="➕ Добавить покупателя" 
+                    Command="{Binding AddCustomerCommand}"
+                    Width="180"
+                    Height="35"
+                    Margin="0,0,10,0"
+                    FontSize="14"/>
+
+            <Button Content="🗑 Удалить" 
+                    Command="{Binding DeleteCustomerCommand}"
+                    Width="120"
+                    Height="35"
+                    Margin="0,0,10,0"
+                    FontSize="14"/>
+
+            <Button Content="🔄 Обновить" 
+                    Command="{Binding RefreshCommand}"
+                    Width="120"
+                    Height="35"
+                    FontSize="14"/>
+        </StackPanel>
+
+        <!-- Список покупателей -->
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Customers}"
+                  SelectedItem="{Binding SelectedCustomer}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  GridLinesVisibility="All"
+                  AlternatingRowBackground="LightGray"
+                  CanUserAddRows="False">
+
+            <!-- Определяем колонки -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding CustomerId}" 
+                                    Width="250"/>
+
+                <DataGridTextColumn Header="ФИО" 
+                                    Binding="{Binding FullName}" 
+                                    Width="200"/>
+
+                <DataGridTextColumn Header="Email" 
+                                    Binding="{Binding Email}" 
+                                    Width="180"/>
+
+                <DataGridTextColumn Header="Телефон" 
+                                    Binding="{Binding Phone}" 
+                                    Width="140"/>
+
+                <DataGridTextColumn Header="Тип" 
+                                    Binding="{Binding Type}" 
+                                    Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

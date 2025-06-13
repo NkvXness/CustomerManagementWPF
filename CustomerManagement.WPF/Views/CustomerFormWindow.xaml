@@ -1,0 +1,112 @@
+﻿<Window x:Class="CustomerManagement.WPF.Views.CustomerFormWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Данные покупателя" 
+        Height="534" 
+        Width="467"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" 
+                   Text="Информация о покупателе"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <!-- Тип покупателя -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,15">
+            <TextBlock Text="Тип покупателя:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <ComboBox x:Name="CustomerTypeComboBox"
+                      Height="30"
+                      FontSize="14">
+                <ComboBoxItem Content="Обычный покупатель" Tag="Regular"/>
+                <ComboBoxItem Content="Оптовый покупатель" Tag="Wholesale"/>
+                <ComboBoxItem Content="VIP покупатель" Tag="VIP"/>
+            </ComboBox>
+        </StackPanel>
+
+        <!-- ФИО -->
+        <StackPanel Grid.Row="2" Margin="0,0,0,15">
+            <TextBlock Text="ФИО:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <TextBox x:Name="FullNameTextBox"
+                     Height="30"
+                     FontSize="14"
+                     VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Email -->
+        <StackPanel Grid.Row="3" Margin="0,0,0,15">
+            <TextBlock Text="Email:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <TextBox x:Name="EmailTextBox"
+                     Height="30"
+                     FontSize="14"
+                     VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Телефон -->
+        <StackPanel Grid.Row="4" Margin="0,0,0,15">
+            <TextBlock Text="Телефон:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <TextBox x:Name="PhoneTextBox"
+                     Height="30"
+                     FontSize="14"
+                     VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Адрес -->
+        <StackPanel Grid.Row="5" Margin="0,0,0,15">
+            <TextBlock Text="Адрес:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+            <TextBox x:Name="AddressTextBox"
+                     Height="60"
+                     FontSize="14"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
+
+        <!-- Сообщение об ошибке -->
+        <TextBlock Grid.Row="6"
+                   x:Name="ErrorMessageTextBlock"
+                   Text=""
+                   Foreground="Red"
+                   FontSize="12"
+                   TextWrapping="Wrap"
+                   Margin="0,10,0,0"
+                   Visibility="Collapsed"/>
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="7" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0">
+            <Button Content="Сохранить"
+                    x:Name="SaveButton"
+                    Width="120"
+                    Height="35"
+                    FontSize="14"
+                    IsDefault="True"
+                    Margin="0,0,10,0"
+                    Click="SaveButton_Click"/>
+
+            <Button Content="Отмена"
+                    x:Name="CancelButton"
+                    Width="120"
+                    Height="35"
+                    FontSize="14"
+                    IsCancel="True"
+                    Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

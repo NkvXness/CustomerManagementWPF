@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Windows;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CustomerManagement.Core.Factories;
 using CustomerManagement.Core.Models;
@@ -74,17 +75,15 @@ namespace CustomerManagement.WPF.ViewModels
         /// </summary>
         private void AddCustomer()
         {
-            // Создаем тестового покупателя через фабрику
-            var customer = CustomerFactory.CreateTestCustomer(CustomerType.Regular);
+            var formWindow = new Views.CustomerFormWindow();
+            formWindow.Owner = Application.Current.MainWindow;
 
-            // Добавляем в репозиторий
-            _customerRepository.Add(customer);
-
-            // Добавляем в коллекцию для отображения
-            Customers.Add(customer);
-
-            // Выбираем нового покупателя
-            SelectedCustomer = customer;
+            if (formWindow.ShowDialog() == true && formWindow.ResultCustomer != null)
+            {
+                _customerRepository.Add(formWindow.ResultCustomer);
+                Customers.Add(formWindow.ResultCustomer);
+                SelectedCustomer = formWindow.ResultCustomer;
+            }
         }
 
         /// <summary>

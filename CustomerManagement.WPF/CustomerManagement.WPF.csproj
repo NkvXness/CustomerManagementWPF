@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\" />
     <Folder Include="Converters\" />
     <Folder Include="Models\" />
   </ItemGroup>

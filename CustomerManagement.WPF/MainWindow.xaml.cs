@@ -1,25 +1,37 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using CustomerManagement.WPF.ViewModels;
 
 namespace CustomerManagement.WPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            //CustomerManagement.Core.Program.TestFactoryAndRepository();
+
+            // Подписываемся на изменение выбранного покупателя
+            if (DataContext is MainViewModel viewModel)
+            {
+                viewModel.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(MainViewModel.SelectedCustomer))
+                    {
+                        // ContractControlElement.SetCustomer(viewModel.SelectedCustomer);
+                    }
+                };
+            }
+        }
+
+        /// <summary>
+        /// Клик по оверлею - закрыть панель
+        /// </summary>
+        private void Overlay_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is MainViewModel viewModel)
+            {
+                viewModel.HideDetailsCommand.Execute(null);
+            }
         }
     }
 }

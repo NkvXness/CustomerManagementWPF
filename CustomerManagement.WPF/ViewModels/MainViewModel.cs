@@ -20,6 +20,18 @@ namespace CustomerManagement.WPF.ViewModels
         // Приватное поле для выбранного покупателя
         private Customer? _selectedCustomer;
 
+        // Приватное поле для видимости панели деталей
+        private bool _isDetailsPanelVisible;
+
+        /// <summary>
+        /// Видимость панели деталей
+        /// </summary>
+        public bool IsDetailsPanelVisible
+        {
+            get => _isDetailsPanelVisible;
+            set => SetProperty(ref _isDetailsPanelVisible, value);
+        }
+
         /// <summary>
         /// Коллекция покупателей для отображения в UI
         /// ObservableCollection автоматически уведомляет UI об изменениях
@@ -32,7 +44,17 @@ namespace CustomerManagement.WPF.ViewModels
         public Customer? SelectedCustomer
         {
             get => _selectedCustomer;
-            set => SetProperty(ref _selectedCustomer, value);
+            set
+            {
+                if (SetProperty(ref _selectedCustomer, value))
+                {
+                    // Автоматически показываем панель при выборе покупателя
+                    if (value != null)
+                    {
+                        IsDetailsPanelVisible = true;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -46,9 +68,24 @@ namespace CustomerManagement.WPF.ViewModels
         public ICommand DeleteCustomerCommand { get; }
 
         /// <summary>
+        /// Команда редактирования покупателя
+        /// </summary>
+        public ICommand EditCustomerCommand { get; }
+
+        /// <summary>
         /// Команда обновления списка
         /// </summary>
         public ICommand RefreshCommand { get; }
+
+        /// <summary>
+        /// Команда открытия панели деталей
+        /// </summary>
+        public ICommand ShowDetailsCommand { get; }
+
+        /// <summary>
+        /// Команда закрытия панели деталей
+        /// </summary>
+        public ICommand HideDetailsCommand { get; }
 
         /// <summary>
         /// Конструктор
@@ -64,7 +101,10 @@ namespace CustomerManagement.WPF.ViewModels
             // Инициализация команд
             AddCustomerCommand = new RelayCommand(AddCustomer);
             DeleteCustomerCommand = new RelayCommand(DeleteCustomer, CanDeleteCustomer);
+            EditCustomerCommand = new RelayCommand(EditCustomer, CanEditCustomer);
             RefreshCommand = new RelayCommand(RefreshCustomers);
+            ShowDetailsCommand = new RelayCommand(ShowDetails);
+            HideDetailsCommand = new RelayCommand(HideDetails);
 
             // Загружаем тестовых покупателей
             LoadTestData();
@@ -96,6 +136,7 @@ namespace CustomerManagement.WPF.ViewModels
                 _customerRepository.Remove(SelectedCustomer.CustomerId);
                 Customers.Remove(SelectedCustomer);
                 SelectedCustomer = null;
+                IsDetailsPanelVisible = false;
             }
         }
 
@@ -139,6 +180,50 @@ namespace CustomerManagement.WPF.ViewModels
             Customers.Add(regular);
             Customers.Add(wholesale);
             Customers.Add(vip);
+        }
+
+        /// <summary>
+        /// Редактировать выбранного покупателя
+        /// </summary>
+        private void EditCustomer()
+        {
+            if (SelectedCustomer == null) return;
+
+            var formWindow = new Views.CustomerFormWindow(SelectedCustomer);
+            formWindow.Owner = Application.Current.MainWindow;
+
+            if (formWindow.ShowDialog() == true)
+            {
+                _customerRepository.Update(SelectedCustomer);
+                OnPropertyChanged(nameof(SelectedCustomer));
+            }
+        }
+
+        /// <summary>
+        /// Проверка на возможность редактирования покупателя
+        /// </summary>
+        private bool CanEditCustomer()
+        {
+            return SelectedCustomer != null;
+        }
+
+        /// <summary>
+        /// Показать панель деталей
+        /// </summary>
+        private void ShowDetails()
+        {
+            if (SelectedCustomer != null)
+            {
+                IsDetailsPanelVisible = true;
+            }
+        }
+
+        /// <summary>
+        /// Скрыть панель деталей
+        /// </summary>
+        private void HideDetails()
+        {
+            IsDetailsPanelVisible = false;
         }
     }
 }

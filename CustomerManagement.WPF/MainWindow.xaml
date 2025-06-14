@@ -6,93 +6,305 @@
         xmlns:viewmodels="clr-namespace:CustomerManagement.WPF.ViewModels"
         mc:Ignorable="d"
         Title="Управление покупателями" 
-        Height="600" 
-        Width="900"
+        Height="650" 
+        Width="1100"
         WindowStartupLocation="CenterScreen">
 
-    <!-- Устанавливаем DataContext (связываем с ViewModel) -->
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
 
-    <!-- Главный контейнер -->
+    <!-- Главный Grid -->
     <Grid Margin="10">
-        <!-- Определяем строки -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+        <!-- Основной контент - список покупателей -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
             <!-- Заголовок -->
-            <RowDefinition Height="Auto"/>
+            <TextBlock Grid.Row="0" 
+                       Text="Список покупателей" 
+                       FontSize="24" 
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"/>
+
             <!-- Кнопки -->
-            <RowDefinition Height="*"/>
-            <!-- Список (занимает всё оставшееся место) -->
-        </Grid.RowDefinitions>
+            <StackPanel Grid.Row="1" 
+                        Orientation="Horizontal" 
+                        Margin="0,0,0,10">
 
-        <!-- Заголовок -->
-        <TextBlock Grid.Row="0" 
-                   Text="Список покупателей" 
-                   FontSize="24" 
-                   FontWeight="Bold"
-                   Margin="0,0,0,10"/>
+                <Button Content="➕ Добавить" 
+                        Command="{Binding AddCustomerCommand}"
+                        Width="140"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        FontSize="14"/>
 
-        <!-- Панель с кнопками -->
-        <StackPanel Grid.Row="1" 
-                    Orientation="Horizontal" 
-                    Margin="0,0,0,10">
+                <Button Content="✏ Редактировать" 
+                        Command="{Binding EditCustomerCommand}"
+                        Width="140"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        FontSize="14"/>
 
-            <Button Content="➕ Добавить покупателя" 
-                    Command="{Binding AddCustomerCommand}"
-                    Width="180"
-                    Height="35"
-                    Margin="0,0,10,0"
-                    FontSize="14"/>
+                <Button Content="🗑 Удалить" 
+                        Command="{Binding DeleteCustomerCommand}"
+                        Width="120"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        FontSize="14"/>
 
-            <Button Content="🗑 Удалить" 
-                    Command="{Binding DeleteCustomerCommand}"
-                    Width="120"
-                    Height="35"
-                    Margin="0,0,10,0"
-                    FontSize="14"/>
+                <Button Content="🔄 Обновить" 
+                        Command="{Binding RefreshCommand}"
+                        Width="120"
+                        Height="35"
+                        FontSize="14"/>
+            </StackPanel>
 
-            <Button Content="🔄 Обновить" 
-                    Command="{Binding RefreshCommand}"
-                    Width="120"
-                    Height="35"
-                    FontSize="14"/>
-        </StackPanel>
+            <!-- Список покупателей -->
+            <DataGrid Grid.Row="2"
+                      ItemsSource="{Binding Customers}"
+                      SelectedItem="{Binding SelectedCustomer}"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      GridLinesVisibility="All"
+                      AlternatingRowBackground="LightGray"
+                      CanUserAddRows="False">
 
-        <!-- Список покупателей -->
-        <DataGrid Grid.Row="2"
-                  ItemsSource="{Binding Customers}"
-                  SelectedItem="{Binding SelectedCustomer}"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  GridLinesVisibility="All"
-                  AlternatingRowBackground="LightGray"
-                  CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ФИО" 
+                                        Binding="{Binding FullName}" 
+                                        Width="*"/>
 
-            <!-- Определяем колонки -->
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" 
-                                    Binding="{Binding CustomerId}" 
-                                    Width="250"/>
+                    <DataGridTextColumn Header="Email" 
+                                        Binding="{Binding Email}" 
+                                        Width="200"/>
 
-                <DataGridTextColumn Header="ФИО" 
-                                    Binding="{Binding FullName}" 
-                                    Width="200"/>
+                    <DataGridTextColumn Header="Телефон" 
+                                        Binding="{Binding Phone}" 
+                                        Width="140"/>
 
-                <DataGridTextColumn Header="Email" 
-                                    Binding="{Binding Email}" 
-                                    Width="180"/>
+                    <DataGridTextColumn Header="Тип" 
+                                        Binding="{Binding Type}" 
+                                        Width="100"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
 
-                <DataGridTextColumn Header="Телефон" 
-                                    Binding="{Binding Phone}" 
-                                    Width="140"/>
+        <!-- Оверлей (затемнение) при открытой панели -->
+        <Rectangle Fill="Black"
+                   Opacity="0"
+                   MouseLeftButtonDown="Overlay_Click">
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDetailsPanelVisible}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                       From="0" To="0.5"
+                                                       Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                       From="0.5" To="0"
+                                                       Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
 
-                <DataGridTextColumn Header="Тип" 
-                                    Binding="{Binding Type}" 
-                                    Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- Выдвижная панель деталей справа -->
+        <Border Background="White"
+                BorderBrush="LightGray"
+                BorderThickness="1,0,0,0"
+                Width="400"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="100">
+
+            <Border.RenderTransform>
+                <TranslateTransform X="400"/>
+            </Border.RenderTransform>
+
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDetailsPanelVisible}" Value="True">
+                            <Setter Property="IsHitTestVisible" Value="True"/>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.X)"
+                                                       From="400" To="0"
+                                                       Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.X)"
+                                                       From="0" To="400"
+                                                       Duration="0:0:0.3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseIn"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок с кнопкой закрытия -->
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="Детали покупателя"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+
+                    <Button Content="✕"
+                            Command="{Binding HideDetailsCommand}"
+                            Width="30"
+                            Height="30"
+                            FontSize="18"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            Cursor="Hand"
+                            ToolTip="Закрыть">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="15">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFEEEEEE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+
+                <!-- Содержимое деталей -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <!-- ID -->
+                        <TextBlock Text="ID:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.CustomerId}" 
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- ФИО -->
+                        <TextBlock Text="ФИО:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.FullName}" 
+                                   FontSize="16"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Email -->
+                        <TextBlock Text="Email:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.Email}" 
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Телефон -->
+                        <TextBlock Text="Телефон:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.Phone}" 
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Адрес -->
+                        <TextBlock Text="Адрес:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.Address}" 
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Тип -->
+                        <TextBlock Text="Тип покупателя:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.Type}" 
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="DarkBlue"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Количество покупок -->
+                        <TextBlock Text="Количество покупок:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.Purchases.Count}" 
+                                   FontSize="18"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Общая сумма -->
+                        <TextBlock Text="Общая сумма покупок:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Text="{Binding SelectedCustomer.TotalAmount, StringFormat={}{0:C}}" 
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="Green"
+                                   Margin="0,0,0,15"/>
+
+                        <!-- Статус договора -->
+                        <TextBlock Text="Договор:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <TextBlock Margin="0,0,0,15">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedCustomer.Contract.IsActive}" Value="True">
+                                            <Setter Property="Text" Value="✓ Активен"/>
+                                            <Setter Property="Foreground" Value="Green"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SelectedCustomer.Contract}" Value="{x:Null}">
+                                            <Setter Property="Text" Value="✗ Не оформлен"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Text" Value="✗ Расторгнут"/>
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

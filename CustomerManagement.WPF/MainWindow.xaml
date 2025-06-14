@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:CustomerManagement.WPF.ViewModels"
+        xmlns:views="clr-namespace:CustomerManagement.WPF.Views"
         mc:Ignorable="d"
         Title="Управление покупателями" 
         Height="650" 
@@ -302,6 +303,13 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
+                        <!-- Управление договором -->
+                        <Border BorderThickness="0,1,0,0" 
+                                BorderBrush="LightGray" 
+                                Margin="0,15,0,0" 
+                                Padding="0,15,0,0">
+                            <views:ContractControl x:Name="ContractControlElement"/>
+                        </Border>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using CustomerManagement.WPF.ViewModels;
 
@@ -20,6 +21,31 @@ namespace CustomerManagement.WPF
                         ContractControlElement.SetCustomer(viewModel.SelectedCustomer);
                     }
                 };
+            }
+        }
+
+        /// <summary>
+        /// Обработчик клика по DataGrid - открывает панель даже при повторном клике
+        /// </summary>
+        private void DataGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Получаем элемент, по которому кликнули
+            var dep = (DependencyObject)e.OriginalSource;
+
+            // Поднимаемся по визуальному дереву до DataGridRow
+            while (dep != null && dep is not DataGridRow && dep is not DataGrid)
+            {
+                dep = System.Windows.Media.VisualTreeHelper.GetParent(dep);
+            }
+
+            // Если кликнули на строку
+            if (dep is DataGridRow row)
+            {
+                if (DataContext is MainViewModel viewModel)
+                {
+                    // Открываем панель независимо от того, выбрана ли уже эта строка
+                    viewModel.IsDetailsPanelVisible = true;
+                }
             }
         }
 

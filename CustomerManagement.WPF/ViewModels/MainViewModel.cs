@@ -41,20 +41,13 @@ namespace CustomerManagement.WPF.ViewModels
         /// <summary>
         /// Выбранный покупатель в списке
         /// </summary>
+        /// <summary>
+        /// Выбранный покупатель в списке
+        /// </summary>
         public Customer? SelectedCustomer
         {
             get => _selectedCustomer;
-            set
-            {
-                if (SetProperty(ref _selectedCustomer, value))
-                {
-                    // Автоматически показываем панель при выборе покупателя
-                    if (value != null)
-                    {
-                        IsDetailsPanelVisible = true;
-                    }
-                }
-            }
+            set => SetProperty(ref _selectedCustomer, value);
         }
 
         /// <summary>

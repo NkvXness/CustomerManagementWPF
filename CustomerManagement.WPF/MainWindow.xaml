@@ -74,7 +74,8 @@
                       SelectionMode="Single"
                       GridLinesVisibility="All"
                       AlternatingRowBackground="LightGray"
-                      CanUserAddRows="False">
+                      CanUserAddRows="False"
+                      PreviewMouseLeftButtonDown="DataGrid_PreviewMouseLeftButtonDown">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ФИО" 

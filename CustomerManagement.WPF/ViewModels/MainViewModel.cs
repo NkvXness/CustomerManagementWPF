@@ -32,6 +32,18 @@ namespace CustomerManagement.WPF.ViewModels
             set => SetProperty(ref _isDetailsPanelVisible, value);
         }
 
+        // Приватное поле для сообщения статуса
+        private string _statusMessage = "Готов к работе";
+
+        /// <summary>
+        /// Сообщение в статусной строке
+        /// </summary>
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set => SetProperty(ref _statusMessage, value);
+        }
+
         /// <summary>
         /// Коллекция покупателей для отображения в UI
         /// ObservableCollection автоматически уведомляет UI об изменениях
@@ -81,6 +93,11 @@ namespace CustomerManagement.WPF.ViewModels
         public ICommand HideDetailsCommand { get; }
 
         /// <summary>
+        /// Команда добавления покупки
+        /// </summary>
+        public ICommand AddPurchaseCommand { get; }
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         public MainViewModel()
@@ -98,6 +115,7 @@ namespace CustomerManagement.WPF.ViewModels
             RefreshCommand = new RelayCommand(RefreshCustomers);
             ShowDetailsCommand = new RelayCommand(ShowDetails);
             HideDetailsCommand = new RelayCommand(HideDetails);
+            AddPurchaseCommand = new RelayCommand(AddPurchase, CanAddPurchase);
 
             // Загружаем тестовых покупателей
             LoadTestData();
@@ -217,6 +235,56 @@ namespace CustomerManagement.WPF.ViewModels
         private void HideDetails()
         {
             IsDetailsPanelVisible = false;
+        }
+
+        /// <summary>
+        /// Добавить покупку
+        /// </summary>
+        private void AddPurchase()
+        {
+            if (SelectedCustomer == null) return;
+
+            var purchaseWindow = new Views.AddPurchaseWindow(SelectedCustomer);
+            purchaseWindow.Owner = Application.Current.MainWindow;
+
+            if (purchaseWindow.ShowDialog() == true)
+            {
+                try
+                {
+                    // Покупки уже добавлены в окне с рассчитанной скидкой
+                    _customerRepository.Update(SelectedCustomer);
+
+                    // Обновляем отображение
+                    OnPropertyChanged(nameof(SelectedCustomer));
+
+                    // Показываем информацию
+                    MessageBox.Show(
+                        $"Покупки добавлены!\n\n" +
+                        $"Всего покупок: {SelectedCustomer.Purchases.Count}\n" +
+                        $"Общая сумма: {SelectedCustomer.TotalAmount:N2} BYN\n" +
+                        $"Скидка: {SelectedCustomer.ApplyDiscount():N2} BYN\n" +
+                        $"К оплате: {SelectedCustomer.GetTotalWithDiscount():N2} BYN",
+                        "Успех",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+
+                    StatusMessage = $"Покупки добавлены";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при добавлении покупки: {ex.Message}",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    StatusMessage = "Ошибка при добавлении покупки";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Проверка возможности добавления покупки
+        /// </summary>
+        private bool CanAddPurchase()
+        {
+            return SelectedCustomer != null;
         }
     }
 }

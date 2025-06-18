@@ -45,6 +45,21 @@ namespace CustomerManagement.Core.Models
         }
 
         /// <summary>
+        /// Процент скидки
+        /// </summary>
+        public decimal DiscountPercent { get; set; }
+
+        /// <summary>
+        /// Сумма скидки
+        /// </summary>
+        public decimal DiscountAmount => TotalPrice * (DiscountPercent / 100);
+
+        /// <summary>
+        /// Итоговая сумма к оплате (с учётом скидки)
+        /// </summary>
+        public decimal FinalAmount => TotalPrice - DiscountAmount;
+
+        /// <summary>
         /// Конструктор по умолчанию
         /// </summary>
         public Purchase()
@@ -53,6 +68,7 @@ namespace CustomerManagement.Core.Models
             ProductName = string.Empty;
             Quantity = 0;
             Price = 0m;
+            DiscountPercent = 0;
             PurchaseDate = DateTime.Now;
         }
 

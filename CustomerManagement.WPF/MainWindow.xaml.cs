@@ -19,6 +19,7 @@ namespace CustomerManagement.WPF
                     if (e.PropertyName == nameof(MainViewModel.SelectedCustomer))
                     {
                         ContractControlElement.SetCustomer(viewModel.SelectedCustomer);
+                        VipBonusControlElement.SetCustomer(viewModel.SelectedCustomer);
                     }
                 };
             }

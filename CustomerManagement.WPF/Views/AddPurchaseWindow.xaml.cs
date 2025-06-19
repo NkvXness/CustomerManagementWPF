@@ -155,6 +155,14 @@ namespace CustomerManagement.WPF.Views
                     _customer.AddPurchase(purchase);
                 }
 
+                // Если это VIP покупатель - начисляем бонусы
+                if (_customer is VIPCustomer vipCustomer)
+                {
+                    // Начисляем бонусы за всю сумму покупок
+                    decimal totalPurchaseAmount = _purchases.Sum(p => p.TotalPrice);
+                    vipCustomer.AddBonusPoints(totalPurchaseAmount);
+                }
+
                 DialogResult = true;
                 Close();
             }

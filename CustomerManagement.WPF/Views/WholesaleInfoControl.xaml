@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="CustomerManagement.WPF.Views.WholesaleInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="332.8" d:DesignWidth="388.4">
+
+    <Border BorderBrush="#2196F3" BorderThickness="2" Padding="15" CornerRadius="5" Background="#E3F2FD">
+        <StackPanel>
+            <!-- Заголовок -->
+            <TextBlock Text="📦 Оптовый покупатель" 
+                       FontSize="16" 
+                       FontWeight="Bold" 
+                       Foreground="#1976D2"
+                       Margin="0,0,0,15"/>
+
+            <!-- Отсрочка платежа -->
+            <Border Background="White" 
+                    Padding="10" 
+                    CornerRadius="3"
+                    Margin="0,0,0,10">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="⏱ Отсрочка платежа:" 
+                                   FontWeight="SemiBold" 
+                                   Margin="0,0,0,5"/>
+                        <TextBlock x:Name="PaymentDelayText" 
+                                   Text="0 дней" 
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="#1976D2"/>
+                        <TextBlock x:Name="PaymentDelayStatusText"
+                                   Text="Не запрошена"
+                                   FontSize="10"
+                                   Foreground="Gray"
+                                   Margin="0,3,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Минимальный заказ -->
+            <Border Background="White" 
+                    Padding="10" 
+                    CornerRadius="3"
+                    Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock Text="📊 Минимальная сумма заказа:" 
+                               FontWeight="SemiBold" 
+                               Margin="0,0,0,5"/>
+                    <TextBlock x:Name="MinOrderAmountText" 
+                               Text="0 ₽" 
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#FF6F00"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Информация -->
+            <TextBlock TextWrapping="Wrap" 
+                       FontSize="11" 
+                       Foreground="Gray"
+                       Margin="0,5,0,10">
+                <Run Text="💡 Оптовые покупатели получают повышенные скидки"/>
+                <LineBreak/>
+                <Run Text="и возможность отсрочки платежа."/>
+            </TextBlock>
+
+            <!-- Кнопки управления отсрочкой -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="RequestDeferralButton"
+                        Grid.Column="0"
+                        Content="⏱ Запросить"
+                        Height="35"
+                        FontSize="12"
+                        Click="RequestDeferralButton_Click"
+                        ToolTip="Запросить отсрочку платежа"/>
+
+                <Button x:Name="CancelDeferralButton"
+                        Grid.Column="2"
+                        Content="✕ Отменить"
+                        Height="35"
+                        FontSize="12"
+                        Click="CancelDeferralButton_Click"
+                        ToolTip="Отменить отсрочку платежа"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

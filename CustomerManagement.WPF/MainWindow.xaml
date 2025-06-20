@@ -431,6 +431,21 @@
                             <views:VipBonusControl x:Name="VipBonusControlElement"/>
                         </Border>
 
+                        <!-- Оптовая информация (только для оптовых покупателей) -->
+                        <Border Margin="0,0,0,15">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedCustomer.Type}" Value="Wholesale">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Style>
+                            </Border.Style>
+                            <views:WholesaleInfoControl x:Name="WholesaleInfoControlElement"/>
+                        </Border>
+
                         <!-- Управление договором -->
                         <Border BorderThickness="0,1,0,0" 
                                 BorderBrush="LightGray" 

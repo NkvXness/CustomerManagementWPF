@@ -20,6 +20,7 @@ namespace CustomerManagement.WPF
                     {
                         ContractControlElement.SetCustomer(viewModel.SelectedCustomer);
                         VipBonusControlElement.SetCustomer(viewModel.SelectedCustomer);
+                        WholesaleInfoControlElement.SetCustomer(viewModel.SelectedCustomer);
                     }
                 };
             }

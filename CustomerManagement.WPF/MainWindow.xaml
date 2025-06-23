@@ -21,8 +21,14 @@
     </Window.Resources>
 
     <!-- Главный Grid -->
-    <Grid Margin="10">
-        <!-- Основной контент - список покупателей -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="10">
+            <!-- Основной контент - список покупателей -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -457,5 +463,41 @@
                 </ScrollViewer>
             </Grid>
         </Border>
+        </Grid>
+        <!-- Статусная строка внизу -->
+        <StatusBar Grid.Row="10" 
+                   Height="25" 
+                   VerticalAlignment="Bottom"
+                   Background="#F5F5F5">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="{Binding StatusMessage}" FontSize="11"/>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="1">
+                <TextBlock FontSize="11" Margin="0,0,10,0">
+                    <Run Text="Всего покупателей: "/>
+                    <Run Text="{Binding Customers.Count, Mode=OneWay}" FontWeight="Bold"/>
+                </TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem Grid.Column="2">
+                <TextBlock FontSize="11">
+                    <Run Text="Выбран: "/>
+                    <Run Text="{Binding SelectedCustomer.FullName, TargetNullValue='—'}" FontWeight="Bold"/>
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

@@ -135,6 +135,8 @@ namespace CustomerManagement.WPF.ViewModels
                 Customers.Add(formWindow.ResultCustomer);
                 SelectedCustomer = formWindow.ResultCustomer;
             }
+
+            StatusMessage = $"Покупатель добавлен";
         }
 
         /// <summary>
@@ -149,6 +151,8 @@ namespace CustomerManagement.WPF.ViewModels
                 SelectedCustomer = null;
                 IsDetailsPanelVisible = false;
             }
+
+            StatusMessage = $"Покупатель удалён";
         }
 
         /// <summary>
@@ -170,6 +174,7 @@ namespace CustomerManagement.WPF.ViewModels
             {
                 Customers.Add(customer);
             }
+            StatusMessage = $"Загружено покупателей: {Customers.Count}";
         }
 
         /// <summary>

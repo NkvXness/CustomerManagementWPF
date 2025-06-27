@@ -10,7 +10,8 @@
         Title="Управление покупателями" 
         Height="650" 
         Width="1100"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="Assets/CustomerManager.ico">
 
     <Window.DataContext>
         <viewmodels:MainViewModel/>

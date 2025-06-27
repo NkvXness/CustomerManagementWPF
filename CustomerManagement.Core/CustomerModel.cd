@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="CustomerManagement.Core.Factories.CustomerFactory">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQACEAAAgAAAAgAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\CustomerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.Contract">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAEEAAAAAAAAAABIAAAAAAEAAAEAAA=</HashCode>
+      <FileName>Models\Contract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.Customer">
+    <Position X="3.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAACCQIKgEAAAAAACAAQBAABACAQAIoGAAAgA=</HashCode>
+      <FileName>Models\Customer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DiscountStrategy" />
+      <Property Name="Type" />
+      <Property Name="Contract" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.CustomerData">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAIAEAAgAAAAAAAAAAAACAAAAIAAAABA=</HashCode>
+      <FileName>Models\CustomerData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.Purchase">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABQAAAAAEAIkAAAAAAAAASAAAAAAAoAAIAAA=</HashCode>
+      <FileName>Models\Purchase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.VIPCustomer">
+    <Position X="1.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEQAAACABAAAAAEEAgAAAAAAAIAACAAAAgQgAAAEAA=</HashCode>
+      <FileName>Models\VIPCustomer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.WholesaleCustomer">
+    <Position X="1.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAAAAAAAAEAAEAAACABBAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\WholesaleCustomer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CustomerManagement.Core.Repositories.CustomerRepository" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAQAAAAgAAAABAQAAAAAAEAAAgAAAAFAAII=</HashCode>
+      <FileName>Repositories\CustomerRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CustomerManagement.Core.Strategies.StandardDiscountStrategy" BaseTypeListCollapsed="true">
+    <Position X="6" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAABAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Strategies\StandardDiscountStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CustomerManagement.Core.Strategies.VIPDiscountStrategy" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAABAAAAAAAAgAAAAAAAAAQAAE=</HashCode>
+      <FileName>Strategies\VIPDiscountStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CustomerManagement.Core.Strategies.WholesaleDiscountStrategy" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAAAAAAAABAAAABAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Strategies\WholesaleDiscountStrategy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CustomerManagement.Core.Models.PaymentResult">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAIAAAAAAAAEAAAAAAAAAgAAAACAAAAAMAAAAAA=</HashCode>
+      <FileName>Models\PaymentResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CustomerManagement.Core.Repositories.ICustomerRepository">
+    <Position X="11.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAQAAAAAAAAABAQAAAAAAAAAAgAAAAFAAII=</HashCode>
+      <FileName>Repositories\ICustomerRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CustomerManagement.Core.Strategies.IDiscountStrategy">
+    <Position X="6" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAABAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Strategies\IDiscountStrategy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="CustomerManagement.Core.Models.CustomerType">
+    <Position X="3.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACgA=</HashCode>
+      <FileName>Models\CustomerType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

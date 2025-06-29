@@ -85,7 +85,7 @@ namespace CustomerManagement.Core.Models
         {
             if (IsSuccess)
             {
-                return $"✓ Оплата {PaidAmount:C} успешно обработана. Остаток: {RemainingAmount:C}";
+                return $"✓ Оплата {PaidAmount:N2} BYN успешно обработана. Остаток: {RemainingAmount:N2} BYN";
             }
             else
             {
